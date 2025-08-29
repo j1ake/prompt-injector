@@ -1,17 +1,56 @@
 {
-	"name": "prompt-injector",
-	"private": true,
-	"version": "0.0.1",
+	"name": "@blueprintlabio/prompt-injector",
+	"version": "1.0.0",
+	"description": "Lightweight TypeScript library for AI security testing with 25+ curated prompt injection patterns from leading security research",
 	"type": "module",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
+		}
+	},
+	"files": [
+		"dist",
+		"README.md",
+		"LICENSE"
+	],
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "vite build && npm run build:lib",
+		"build:lib": "rm -rf dist && tsc --project tsconfig.lib.json && cp src/lib/package.json dist/",
+		"build:demo": "vite build",
 		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
+		"prepare": "svelte-kit sync || echo '' && npm run build:lib",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
-		"lint": "prettier --check . && eslint ."
+		"lint": "prettier --check . && eslint .",
+		"prepublishOnly": "npm run build:lib"
+	},
+	"keywords": [
+		"ai-security",
+		"prompt-injection",
+		"llm-security",
+		"ai-testing",
+		"security-testing",
+		"penetration-testing",
+		"red-teaming",
+		"typescript",
+		"jailbreaking",
+		"ai-safety"
+	],
+	"author": "Blueprint Lab IO",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/BlueprintLabIO/prompt-injector.git"
+	},
+	"homepage": "https://github.com/BlueprintLabIO/prompt-injector",
+	"bugs": {
+		"url": "https://github.com/BlueprintLabIO/prompt-injector/issues"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
@@ -34,5 +73,8 @@
 		"typescript": "^5.0.0",
 		"typescript-eslint": "^8.20.0",
 		"vite": "^7.0.4"
+	},
+	"publishConfig": {
+		"access": "public"
 	}
 }

@@ -175,10 +175,10 @@
 				<!-- Hero Section -->
 				<div class="text-center py-12">
 					<h2 class="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-						Enterprise AI Security Testing Library
+						Lightweight AI Security Testing Library
 					</h2>
 					<p class="text-xl text-gray-600 dark:text-gray-400 mb-6 max-w-3xl mx-auto">
-						A TypeScript library with 25+ curated prompt injection patterns from leading security research. 
+						A minimal TypeScript library with 25+ curated prompt injection patterns from leading security research. 
 						Easy to integrate, comprehensive coverage, production-ready.
 					</p>
 					<div class="bg-gray-100 dark:bg-gray-800 rounded-xl p-4 text-left max-w-2xl mx-auto mb-8">

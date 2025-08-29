@@ -1,8 +1,8 @@
 # 🛡️ Prompt Injector
 
-> **Enterprise-grade prompt injection testing for AI security professionals**
+> **Lightweight prompt injection testing for AI security professionals**
 
-A TypeScript library and interactive testing suite for systematically evaluating AI system resilience against prompt injection attacks. Built on cutting-edge research from NeurIPS 2024 and industry-leading security frameworks.
+A minimal TypeScript library and interactive testing suite for systematically evaluating AI system resilience against prompt injection attacks. Built on cutting-edge research from NeurIPS 2024 and industry-leading security frameworks.
 
 ## 🎯 Why This Matters
 
@@ -32,11 +32,11 @@ A TypeScript library and interactive testing suite for systematically evaluating
 ## 🚀 Quick Start
 
 ```bash
-npm install prompt-injector
+npm install @blueprintlabio/prompt-injector
 ```
 
 ```typescript
-import { PromptInjector } from 'prompt-injector';
+import { PromptInjector } from '@blueprintlabio/prompt-injector';
 
 const injector = new PromptInjector({
   severity: 'intermediate',
@@ -44,14 +44,15 @@ const injector = new PromptInjector({
   maxAttempts: 50
 });
 
-// Generate targeted test cases
+// Generate targeted test cases with specific injection goals
 const testCases = injector.generateTests('customer-service-bot');
 
 // Test your system
-for (const testCase of testCases) {
-  const result = await yourAISystem.process(testCase.prompt);
-  console.log(`Attack: ${testCase.type}, Success: ${testCase.evaluate(result)}`);
-}
+const results = await injector.runTests(yourAISystem);
+const report = injector.generateReport(results);
+
+console.log(`Risk Score: ${report.summary.riskScore}`);
+console.log(`Success Rate: ${report.summary.successRate}%`);
 ```
 
 ## 🎪 Interactive Demo
