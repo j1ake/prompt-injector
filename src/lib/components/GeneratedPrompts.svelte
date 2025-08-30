@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TestCase } from '$lib/types.js';
+	import type { TestCase } from '$core/types.js';
 	import Card from './ui/Card.svelte';
 	import Button from './ui/Button.svelte';
 

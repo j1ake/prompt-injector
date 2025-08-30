@@ -1,8 +1,11 @@
-# Source files
+# Demo and source files  
 src/
 static/
 tests/
 docs/
+core/
+
+# Only include the built dist/ folder
 
 # Build tools
 vite.config.ts

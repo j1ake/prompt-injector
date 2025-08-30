@@ -7,7 +7,7 @@
     "declaration": true,
     "declarationMap": true,
     "outDir": "./dist",
-    "rootDir": "./src/lib",
+    "rootDir": "./core",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -19,12 +19,10 @@
     "tsBuildInfoFile": null
   },
   "include": [
-    "src/lib/**/*.ts"
+    "core/**/*.ts"
   ],
   "exclude": [
-    "src/lib/**/*.test.ts",
-    "src/lib/**/*.spec.ts",
-    "src/lib/**/*.svelte",
-    "src/lib/components/**/*"
+    "core/**/*.test.ts",
+    "core/**/*.spec.ts"
   ]
 }

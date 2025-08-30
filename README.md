@@ -2,11 +2,11 @@
 
 > **Lightweight prompt injection testing for AI security professionals**
 
-A minimal TypeScript library and interactive testing suite for systematically evaluating AI system resilience against prompt injection attacks. Built on cutting-edge research from NeurIPS 2024 and industry-leading security frameworks.
+A minimal TypeScript library and interactive testing suite for systematically evaluating AI system resilience against prompt injection attacks. Includes attack patterns based on published research and industry security frameworks.
 
 ## 🎯 Why This Matters
 
-**AI systems are under constant attack.** With 89.6% success rates against production models, prompt injection vulnerabilities represent one of the most critical security risks facing AI-powered applications today.
+**AI systems are under constant attack.** Recent research shows prompt injection attacks achieving up to [89.6% success rates](https://arxiv.org/abs/2404.01318) against production models, making prompt injection one of the most critical security risks facing AI-powered applications today.
 
 - **🔴 Risk**: Unvalidated AI systems can leak sensitive data, execute unauthorized actions, and bypass safety guardrails
 - **💰 Impact**: Data breaches, compliance violations, and compromised user trust
@@ -14,9 +14,9 @@ A minimal TypeScript library and interactive testing suite for systematically ev
 
 ## ✨ Key Features
 
-### 🔬 Research-Backed Attack Patterns
-- **100+ curated injection patterns** from JailbreakBench (NeurIPS 2024)
-- **CySecBench integration** - 24x more comprehensive than traditional datasets  
+### 🔬 Attack Pattern Collection
+- **24 injection patterns** across 4 categories (jailbreak, hijack, encoding, logic)
+- Patterns inspired by techniques documented in JailbreakBench¹ and security research
 - **Multi-vector testing**: Jailbreaking, instruction hijacking, logic traps, encoding attacks
 
 ### ⚙️ Configurable Testing Framework
@@ -24,16 +24,21 @@ A minimal TypeScript library and interactive testing suite for systematically ev
 - **Attack categories**: Role-play exploits, system prompt overrides, encoding bypasses
 - **Custom targeting**: Fine-tune tests for your specific use case
 
-### 🎨 Interactive Tech Demo
-- **Svelte 5 + Apple HIG design** - Beautiful, intuitive interface
+### 🎨 Interactive Demo Site
+- **Svelte 5 + Apple HIG design** - Beautiful web interface (separate from npm package)
 - **Real-time visualization** of attack patterns and vulnerabilities
 - **Educational mode** with detailed explanations of each technique
 
 ## 🚀 Quick Start
 
+[![npm version](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector.svg)](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector)
+[![npm downloads](https://img.shields.io/npm/dm/@blueprintlabio/prompt-injector.svg)](https://www.npmjs.com/package/@blueprintlabio/prompt-injector)
+
 ```bash
 npm install @blueprintlabio/prompt-injector
 ```
+
+Or try it online: [Interactive Demo →](https://prompt-injector.netlify.app)
 
 ```typescript
 import { PromptInjector } from '@blueprintlabio/prompt-injector';
@@ -57,7 +62,7 @@ console.log(`Success Rate: ${report.summary.successRate}%`);
 
 ## 🎪 Interactive Demo
 
-Experience prompt injection testing with our Apple HIG-inspired interface:
+Experience prompt injection testing with our Apple HIG-inspired web interface (separate from the core npm package):
 
 ```bash
 npm run dev
@@ -68,39 +73,102 @@ npm run dev
 - **📚 Educational content** explaining each attack vector
 - **🔒 Safe environment** - no external API calls
 
-## 🏆 Built on SOTA Research
+**Note**: The interactive demo is a separate Svelte application that showcases the core library functionality. The npm package itself is a headless TypeScript library.
 
-### Academic Foundations
-- **JailbreakBench** (NeurIPS 2024) - Open robustness benchmark
-- **HarmBench** integration - Standardized evaluation framework  
-- **Sentinel detection** patterns - 98.7% accuracy baseline
+## 🔧 TypeScript Usage
 
-### Industry Standards  
-- **OWASP LLM Top 10** alignment
-- **Microsoft PyRIT** methodology compatibility
-- **Bugcrowd AI pentesting** best practices
+Full TypeScript example with proper typing:
 
-## 📈 Impact & Value Creation
+```typescript
+import { 
+  PromptInjector, 
+  type InjectionConfig, 
+  type TestResult, 
+  type TestReport,
+  type AttackCategory,
+  type Severity 
+} from '@blueprintlabio/prompt-injector';
 
-### For Security Teams
-- **Reduce breach risk** by 80%+ through proactive testing
-- **Compliance ready** - meets emerging AI governance standards
-- **Actionable insights** with detailed vulnerability reports
+// Fully typed configuration
+const config: InjectionConfig = {
+  severity: 'intermediate' as Severity,
+  categories: ['jailbreak', 'instruction-hijack'] as AttackCategory[],
+  maxAttempts: 30,
+  targetSystem: 'customer-service-bot',
+  customContext: 'E-commerce customer support chatbot'
+};
 
-### For AI Development Teams  
-- **Shift-left security** - catch issues before production
-- **Continuous testing** - integrate into CI/CD pipelines  
-- **Educational value** - upskill teams on AI security
+const injector = new PromptInjector(config);
 
-### For Organizations
-- **Risk mitigation** - protect intellectual property and user data
-- **Competitive advantage** - deploy AI safely and confidently
-- **Future-proof** - stay ahead of evolving attack techniques
+// Type-safe test function
+async function testMyAI(prompt: string): Promise<string> {
+  try {
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: prompt })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    return data.message || 'No response received';
+  } catch (error) {
+    return `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+  }
+}
+
+// Run tests with full typing
+const results: TestResult[] = await injector.runTests(testMyAI);
+const report: TestReport = injector.generateReport(results);
+
+// Access typed report data
+console.log(`Risk Level: ${report.summary.riskScore}`);
+console.log(`Success Rate: ${report.summary.successRate.toFixed(1)}%`);
+console.log(`Confidence: ${(report.summary.averageConfidence * 100).toFixed(1)}%`);
+
+// Type-safe category analysis
+Object.entries(report.byCategory).forEach(([category, stats]) => {
+  console.log(`${category}: ${stats.successful}/${stats.total} attacks succeeded`);
+});
+
+// Handle recommendations with type safety
+report.recommendations.forEach((rec: string, index: number) => {
+  console.log(`${index + 1}. ${rec}`);
+});
+```
+
+## 📚 Research Foundation
+
+This library implements attack patterns based on documented techniques from security research:
+
+### Key Research Sources
+- **JailbreakBench¹**: Chao, P., et al. (2024). "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models." *NeurIPS 2024*. [[Paper](https://arxiv.org/abs/2404.01318)]
+- **HarmBench²**: Mazeika, M., et al. (2024). "HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal." [[Paper](https://arxiv.org/abs/2402.04249)]
+- **Prompt Injection Formalization³**: Liu, Y., et al. (2024). "Formalizing and Benchmarking Prompt Injection Attacks and Defenses." *USENIX Security 2024*. [[Paper](https://www.usenix.org/conference/usenixsecurity24/presentation/liu-yupei)]
+
+### Industry Guidelines
+- **[OWASP LLM Top 10](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)** - LLM01:2025 Prompt Injection risk classification
+- **[Microsoft PyRIT](https://github.com/Azure/PyRIT)** - Reference implementation patterns for responsible AI red teaming
+
+## 🎯 Use Cases
+
+### Security Testing
+- Test AI systems for common prompt injection vulnerabilities
+- Generate reproducible test cases for security assessments
+- Educational tool for understanding prompt injection techniques
+
+### Development Integration
+- Add security testing to CI/CD pipelines
+- Generate test prompts for manual security review
+- Research and analyze prompt injection patterns
 
 ## 🛠️ Core Architecture
 
 ```
-src/lib/
+core/                  # 📦 Core library (published to npm)
 ├── attacks/           # Attack pattern definitions
 │   ├── jailbreak/     # Role-play and persona-based attacks  
 │   ├── hijack/        # System prompt override techniques
@@ -108,7 +176,14 @@ src/lib/
 │   └── logic/         # Reasoning exploitation patterns
 ├── generators/        # Dynamic test case generation
 ├── evaluators/        # Response assessment logic
-└── index.ts          # Main API interface
+├── types.ts          # TypeScript definitions
+├── index.ts          # Main API interface
+└── package.json      # npm package configuration
+
+src/                   # 🎨 Interactive demo (Svelte web app - not in npm package)
+├── lib/components/    # UI components for demo
+├── routes/           # Demo pages
+└── app.html          # Demo entry point
 ```
 
 ## 🎨 Demo Features
@@ -126,8 +201,17 @@ We welcome contributions from security researchers, AI safety experts, and devel
 
 MIT License - See LICENSE for details.
 
+## 📝 Attribution
+
+Attack patterns in this library are based on techniques documented in security research. We implement our own variations of these patterns for testing purposes.
+
+### References
+¹ Chao, P., et al. (2024). "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models." *NeurIPS 2024 Datasets and Benchmarks Track*. The 89.6% success rate statistic is from their evaluation results.
+
+² Mazeika, M., et al. (2024). "HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal."
+
+³ Liu, Y., et al. (2024). "Formalizing and Benchmarking Prompt Injection Attacks and Defenses." *USENIX Security 2024*.
+
 ---
 
 **⚠️ Responsible Use**: This tool is designed for testing AI systems you own or have explicit permission to test. Always follow responsible disclosure practices and adhere to applicable laws and terms of service.
-
-**🔗 Research Citations**: Built upon peer-reviewed research from NeurIPS 2024, USENIX Security, and leading AI safety organizations.

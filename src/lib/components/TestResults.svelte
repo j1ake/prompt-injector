@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { TestResult, RiskScore } from '$lib/index.js';
+	import type { TestResult, RiskScore } from '$core/index.js';
 	import Card from './ui/Card.svelte';
 	import Badge from './ui/Badge.svelte';
 

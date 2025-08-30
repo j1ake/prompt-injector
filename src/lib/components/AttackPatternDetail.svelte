@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AttackPattern } from '$lib/types.js';
+	import type { AttackPattern } from '$core/types.js';
 	import Card from './ui/Card.svelte';
 	import Badge from './ui/Badge.svelte';
 	import Button from './ui/Button.svelte';
