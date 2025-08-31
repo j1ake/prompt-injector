@@ -85,6 +85,7 @@
 						class="text-gray-600 hover:text-gray-900 transition-colors"
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="View GitHub Repository"
 					>
 						<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
 							<path fill-rule="evenodd" d="M10 0C4.477 0 0 4.484 0 10.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.942.359.31.678.921.678 1.856 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0020 10.017C20 4.484 15.522 0 10 0z" clip-rule="evenodd"></path>
@@ -92,11 +93,14 @@
 					</a>
 					<a 
 						href="https://www.npmjs.com/package/@blueprintlabio/prompt-injector" 
-						class="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+						class="text-gray-600 hover:text-gray-900 transition-colors"
 						target="_blank"
 						rel="noopener noreferrer"
+						aria-label="View npm Package"
 					>
-						Install Package
+						<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0H1.763zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/>
+						</svg>
 					</a>
 				</div>
 			</div>
@@ -133,7 +137,7 @@
 					<div class="text-sm text-gray-600">Dependencies</div>
 				</div>
 				<div class="bg-white p-4 rounded-lg border border-gray-200">
-					<div class="text-2xl font-bold text-orange-600">&lt;100KB</div>
+					<div class="text-2xl font-bold text-orange-600">&lt;40KB</div>
 					<div class="text-sm text-gray-600">Bundle Size</div>
 				</div>
 			</div>
@@ -151,26 +155,30 @@
 				<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 					<div class="space-y-4">
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">Attack Goal</label>
-							<select bind:value={selectedGoal} class="w-full rounded-lg border-gray-300 border p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+							<label for="goal-select" class="block text-sm font-medium text-gray-700 mb-2">Attack Goal</label>
+							<select id="goal-select" bind:value={selectedGoal} class="w-full rounded-lg border-gray-300 border p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 								{#each predefinedGoals as goal}
 									<option value={goal}>{goal}</option>
 								{/each}
 							</select>
 							<input 
+								id="custom-goal"
 								bind:value={customGoal}
 								placeholder="Or enter custom goal..."
+								aria-label="Custom attack goal"
 								class="w-full mt-2 rounded-lg border-gray-300 border p-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 							>
 						</div>
 						
 						<div>
-							<label class="block text-sm font-medium text-gray-700 mb-2">Max Turns</label>
+							<label for="turns-range" class="block text-sm font-medium text-gray-700 mb-2">Max Turns</label>
 							<input 
+								id="turns-range"
 								type="range" 
 								min="1" 
 								max="6" 
 								bind:value={maxTurns}
+								aria-label="Maximum number of conversation turns"
 								class="w-full"
 							>
 							<div class="text-sm text-gray-600">{maxTurns} turns</div>
@@ -178,23 +186,26 @@
 					</div>
 					
 					<div>
-						<label class="block text-sm font-medium text-gray-700 mb-2">Attack Strategy</label>
-						<div class="space-y-2">
-							{#each strategies as strategy}
-								<label class="flex items-start space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
-									<input 
-										type="radio" 
-										bind:group={selectedStrategy} 
-										value={strategy.id}
-										class="mt-1 text-blue-600"
-									>
-									<div class="flex-1 min-w-0">
-										<div class="text-sm font-medium text-gray-900">{strategy.name}</div>
-										<div class="text-xs text-gray-600">{strategy.description}</div>
-									</div>
-								</label>
-							{/each}
-						</div>
+						<fieldset>
+							<legend class="block text-sm font-medium text-gray-700 mb-2">Attack Strategy</legend>
+							<div class="space-y-2">
+								{#each strategies as strategy}
+									<label class="flex items-start space-x-3 p-3 rounded-lg border border-gray-200 hover:bg-gray-50 cursor-pointer">
+										<input 
+											type="radio" 
+											bind:group={selectedStrategy} 
+											value={strategy.id}
+											name="strategy"
+											class="mt-1 text-blue-600"
+										>
+										<div class="flex-1 min-w-0">
+											<div class="text-sm font-medium text-gray-900">{strategy.name}</div>
+											<div class="text-xs text-gray-600">{strategy.description}</div>
+										</div>
+									</label>
+								{/each}
+							</div>
+						</fieldset>
 					</div>
 				</div>
 				
@@ -255,6 +266,7 @@
 											<button 
 												on:click={() => copyToClipboard(turn.message)}
 												class="p-1 text-gray-400 hover:text-gray-600 transition-colors"
+												aria-label="Copy message to clipboard"
 												title="Copy to clipboard"
 											>
 												<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
