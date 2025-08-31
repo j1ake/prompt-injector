@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PromptInjector } from '@blueprintlabio/prompt-injector';
 	import { onMount } from 'svelte';
 	
 	let injector: any = null;
@@ -29,7 +30,6 @@
 	onMount(async () => {
 		try {
 			// Import the library from the core build
-			const { PromptInjector } = await import('../../../core/dist/index.js');
 			injector = new PromptInjector();
 			availablePrimitives = injector.listPrimitives();
 		} catch (error) {
