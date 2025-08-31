@@ -7,7 +7,7 @@
 
 ⚠️ **EXPERIMENTAL SOFTWARE**: This is an early-stage research project built with Claude Code. Success rates and effectiveness claims are based on preliminary research and may not reflect real-world performance. Use for educational and defensive testing purposes only.
 
-A minimal, composable library that generates multi-turn prompt injection attack conversations for security professionals to test AI systems. No evaluation, no false promises - just research-informed attack patterns.
+A minimal, composable library that generates multi-turn prompt injection attack conversations for security professionals to test AI systems. 
 
 ## 🚨 Early Development Status
 
