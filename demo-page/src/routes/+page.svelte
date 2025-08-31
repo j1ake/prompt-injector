@@ -115,11 +115,10 @@
 				⚠️ Experimental Software - Defensive Testing Only
 			</div>
 			<h2 class="text-3xl font-bold text-gray-900 sm:text-4xl mb-4">
-				AI Security Test Conversations
+				Generate Prompt Injection Attacks
 			</h2>
 			<p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">
-				Generate research-informed multi-turn prompt injection attack patterns for testing AI system defenses.
-				Built with proper citations and experimental transparency.
+				Research-informed multi-turn prompt injection attack patterns for testing AI system defenses.
 			</p>
 			
 			<!-- Quick Stats -->
