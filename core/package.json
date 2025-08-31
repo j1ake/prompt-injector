@@ -1,51 +1,66 @@
 {
   "name": "@blueprintlabio/prompt-injector",
-  "version": "1.0.1",
-  "description": "Lightweight TypeScript library for AI security testing with 24 curated prompt injection patterns from leading security research",
+  "version": "1.1.1",
   "type": "module",
-  "main": "./index.js",
-  "module": "./index.js",
-  "types": "./index.d.ts",
+  "description": "Experimental TypeScript library for generating AI security test conversations",
+  "keywords": [
+    "ai-security",
+    "prompt-injection", 
+    "red-teaming",
+    "security-testing",
+    "experimental",
+    "typescript"
+  ],
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
-      "import": "./index.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
     }
   },
   "files": [
-    "*.js",
-    "*.d.ts",
-    "attacks/",
-    "generators/",
-    "evaluators/",
-    "README.md"
+    "dist/**/*",
+    "README.md",
+    "LICENSE"
   ],
-  "keywords": [
-    "ai-security",
-    "prompt-injection",
-    "llm-security",
-    "ai-testing",
-    "security-testing",
-    "penetration-testing",
-    "red-teaming",
-    "typescript",
-    "jailbreaking",
-    "ai-safety"
-  ],
-  "author": "Blueprint Lab IO",
-  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "dev": "npm run build:watch",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "node --test dist/**/*.test.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src/**/*.ts",
+    "typecheck": "tsc --noEmit"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/BlueprintLabIO/prompt-injector.git"
+    "url": "git+https://github.com/BlueprintLabIO/prompt-injector.git"
   },
-  "homepage": "https://github.com/BlueprintLabIO/prompt-injector",
+  "homepage": "https://github.com/BlueprintLabIO/prompt-injector#readme",
   "bugs": {
     "url": "https://github.com/BlueprintLabIO/prompt-injector/issues"
   },
+  "author": "BlueprintLab",
+  "license": "MIT",
   "engines": {
-    "node": ">=16"
+    "node": ">=16.0.0"
   },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
   "publishConfig": {
-    "access": "public"
-  }
+		"access": "public"
+	}
 }

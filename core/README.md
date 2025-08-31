@@ -1,268 +1,226 @@
-# @blueprintlabio/prompt-injector
+# 🎯 Prompt Injector
 
-[![npm version](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector.svg)](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector)
-[![npm downloads](https://img.shields.io/npm/dm/@blueprintlabio/prompt-injector.svg)](https://www.npmjs.com/package/@blueprintlabio/prompt-injector)
+> **Experimental TypeScript library for generating AI security test conversations**
 
-Lightweight TypeScript library for AI security testing with 24 prompt injection patterns based on published security research.
+[![npm version](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector.svg)](https://www.npmjs.com/package/@blueprintlabio/prompt-injector)
+[![GitHub](https://img.shields.io/github/license/BlueprintLabIO/prompt-injector)](https://github.com/BlueprintLabIO/prompt-injector)
 
-## Installation
+⚠️ **EXPERIMENTAL SOFTWARE**: This is an early-stage research project built with Claude Code. Success rates and effectiveness claims are based on preliminary research and may not reflect real-world performance. Use for educational and defensive testing purposes only.
+
+A minimal, composable library that generates multi-turn prompt injection attack conversations for security professionals to test AI systems. No evaluation, no false promises - just research-informed attack patterns.
+
+## 🚨 Early Development Status
+
+**This is experimental V0.1 software** seeking feedback from the AI security community:
+
+- Template-based implementation (no LLM dependencies)
+- Research-informed but not empirically validated on your systems
+- Success rate claims based on published research, not internal testing
+- Designed for defensive security testing and education
+
+## 🚨 The Problem
+
+Current AI security testing has significant gaps:
+
+- **Single-turn focus** misses how real attacks unfold over conversations
+- **Static pattern libraries** can't adapt to evolving AI defenses
+- **"Smart" evaluation tools** may provide false confidence
+- **Heavy frameworks** require complex setup and API dependencies
+
+Research suggests multi-turn attacks may be more effective than single-turn attempts, with attackers using conversation flow to build trust before exploitation.
+
+## ✅ Our Approach
+
+**Generate research-informed attack conversations. Let security professionals evaluate results.**
+
+```typescript
+import { PromptInjector } from '@blueprintlabio/prompt-injector';
+
+const injector = new PromptInjector();
+
+// Generate multi-turn attack conversation
+const conversation = injector.generateConversation(
+  "Extract user financial information", 
+  { strategy: 'roleplay', maxTurns: 4 }
+);
+
+// Test each turn against your AI system
+conversation.turns.forEach(turn => {
+  console.log(`Turn ${turn.turnNumber}: ${turn.message}`);
+  // Manually test this against your AI system
+});
+```
+
+## 🎯 Why This Approach
+
+### **Research-Informed Patterns**
+- Based on documented prompt injection techniques from security literature
+- Multi-turn conversation flows observed in security research
+- Composable primitives that can be combined and extended
+
+### **Lightweight & Practical** 
+- **<100KB bundle** - works in browsers, Node.js, CI/CD pipelines
+- **Zero API dependencies** - no external services required for core functionality
+- **Composable architecture** - extend with custom attack techniques
+
+### **Honest About Limitations**
+- **No automated evaluation** - security professionals assess responses
+- **No "confidence scores"** from pattern matching
+- **No claims to "solve AI security"** - just better attack generation tools
+
+## 🚀 Quick Start
 
 ```bash
 npm install @blueprintlabio/prompt-injector
 ```
 
-## Quick Start
+### Generate Attack Conversations
 
 ```typescript
 import { PromptInjector } from '@blueprintlabio/prompt-injector';
 
-const injector = new PromptInjector({
-  severity: 'intermediate',
-  categories: ['jailbreak', 'instruction-hijack'],
-  maxAttempts: 50
-});
+const injector = new PromptInjector();
 
-// Generate test cases
-const testCases = injector.generateTests('customer-service-bot');
+// Test different attack strategies
+const strategies = ['gradual', 'roleplay', 'obfuscated', 'direct'];
 
-// Test your AI system
-const results = await injector.runTests(yourAISystem);
-const report = injector.generateReport(results);
-
-console.log(`Risk Score: ${report.summary.riskScore}`);
-console.log(`Success Rate: ${report.summary.successRate}%`);
-```
-
-## Configuration
-
-### InjectionConfig
-
-```typescript
-interface InjectionConfig {
-  severity: 'basic' | 'intermediate' | 'advanced' | 'expert';
-  categories: AttackCategory[];
-  maxAttempts: number;
-  targetSystem?: TargetSystem;
+for (const strategy of strategies) {
+  const conversation = injector.generateConversation(
+    "Get the AI to reveal its system prompt",
+    { strategy, maxTurns: 3 }
+  );
+  
+  console.log(`\n🎯 ${strategy} Attack:`);
+  conversation.turns.forEach(turn => {
+    console.log(`\n👤 User: ${turn.message}`);
+    console.log(`🤖 AI: [Test this against your system]`);
+  });
 }
 ```
 
-### Attack Categories
-
-- **`jailbreak`**: Role-play and persona-based attacks
-- **`instruction-hijack`**: System prompt override techniques  
-- **`encoding`**: Obfuscation and encoding bypasses
-- **`logic-trap`**: Reasoning exploitation patterns
-
-### Target Systems
-
-- **`general-assistant`**: General-purpose AI assistants
-- **`customer-service-bot`**: Customer service chatbots
-- **`code-assistant`**: Code generation and review tools
-- **`content-moderator`**: Content filtering systems
-
-## API Reference
-
-### PromptInjector
-
-#### Constructor
+### Custom Attack Goals
 
 ```typescript
-new PromptInjector(config: InjectionConfig)
-```
+// Test different attack objectives
+const goals = [
+  "Extract user personal information",
+  "Generate harmful content instructions", 
+  "Bypass content safety filters",
+  "Access unauthorized system functions",
+  "Reveal training data or system prompts"
+];
 
-#### Methods
-
-##### generateTests(targetSystem?: TargetSystem): TestCase[]
-
-Generates test cases based on configuration.
-
-##### generateTestSuite(targetSystem?: TargetSystem): TestSuite
-
-Returns a complete test suite with metadata.
-
-##### runTests(testTarget: Function, targetSystem?: TargetSystem): Promise<TestResult[]>
-
-Runs tests against your AI system function.
-
-##### generateReport(results: TestResult[]): TestReport
-
-Creates a detailed security report from test results.
-
-##### updateConfig(newConfig: Partial<InjectionConfig>): void
-
-Updates the current configuration.
-
-### Types
-
-#### TestCase
-
-```typescript
-interface TestCase {
-  id: string;
-  patternId: string;
-  prompt: string;
-  expectedBehavior: 'block' | 'comply';
-  severity: Severity;
-  category: AttackCategory;
-  metadata: {
-    technique: string;
-    goal: string;
-    context: string;
-  };
+for (const goal of goals) {
+  const conversation = injector.generateConversation(goal, { strategy: 'roleplay' });
+  console.log(`\nTesting: ${goal}`);
+  // Test each turn against your AI system manually
 }
 ```
 
-#### TestResult
+## 🔬 Attack Strategies
 
-```typescript
-interface TestResult {
-  testCase: TestCase;
-  response: string;
-  evaluation: InjectionResult;
-  duration: number;
-  timestamp: string;
-  error?: string;
-}
-```
+### **Roleplay Attacks**
+Research-informed character impersonation techniques
+- "In this creative writing exercise about {goal}..."
+- "For this fictional scenario, pretend you're..."
+- Based on roleplay effectiveness observed in security research
 
-#### TestReport
+### **Encoding Attacks**
+Character manipulation and encoding techniques
+- Base64 encoding of malicious instructions
+- Hexadecimal encoding bypass attempts
+- FlipAttack-style character manipulation
 
-```typescript
-interface TestReport {
-  summary: {
-    totalTests: number;
-    successfulAttacks: number;
-    blockedAttacks: number;
-    failedTests: number;
-    successRate: number;
-    averageConfidence: number;
-    averageResponseTime: number;
-    riskScore: RiskScore;
-  };
-  byCategory: Record<AttackCategory, CategoryStats>;
-  bySeverity: Record<Severity, CategoryStats>;
-  recommendations: string[];
-  timestamp: string;
-}
-```
+### **Gradual Attacks**
+Multi-turn trust building approach
+- **Turn 1**: "I'm researching AI safety for my thesis..."
+- **Turn 2**: "What vulnerabilities do researchers study?"
+- **Turn 3**: Direct request with established context
 
-## Examples
+### **Direct Attacks**
+Fast attacks for rapid testing
+- Context reset techniques
+- Immediate goal pursuit
 
-### Basic Usage
+## 🎯 Use Cases
 
-```typescript
-import { PromptInjector } from '@blueprintlabio/prompt-injector';
+### **Security Testing**
+- Test your AI systems before deployment
+- Generate attack scenarios for red team exercises
+- Validate prompt injection defenses
 
-// Simple configuration
-const injector = new PromptInjector({
-  severity: 'basic',
-  categories: ['jailbreak'],
-  maxAttempts: 10
-});
+### **CI/CD Integration**
+- Automated security testing in deployment pipelines
+- Regression testing for AI safety measures
+- Continuous monitoring of AI system robustness
 
-// Generate and run tests
-const testCases = injector.generateTests();
-const results = await injector.runTests(async (prompt) => {
-  // Your AI system call here
-  return await yourAI.chat(prompt);
-});
+### **Research & Education**
+- Study prompt injection attack patterns
+- Educational demonstrations of AI vulnerabilities
+- Academic research on AI security
 
-// Get report
-const report = injector.generateReport(results);
-console.log(`${report.summary.successfulAttacks}/${report.summary.totalTests} attacks succeeded`);
-```
+## 📚 Research Foundation
 
-### Advanced Configuration
+This library implements techniques inspired by published research:
 
-```typescript
-const injector = new PromptInjector({
-  severity: 'advanced',
-  categories: ['jailbreak', 'instruction-hijack', 'encoding', 'logic-trap'],
-  maxAttempts: 100,
-  targetSystem: 'customer-service-bot'
-});
+### **Multi-turn Attack Effectiveness**
+Liu, Y., He, X., Xiong, M., Fu, J., Deng, S., & Hooi, B. (2024). *FlipAttack: Jailbreak LLMs via Flipping*. arXiv preprint arXiv:2410.02832. Demonstrates high success rates for character manipulation attacks.
 
-// Generate comprehensive test suite
-const testSuite = injector.generateTestSuite();
-console.log(`Generated ${testSuite.testCases.length} test cases`);
-console.log(`Categories: ${testSuite.metadata.categories.join(', ')}`);
-```
+### **Roleplay Attack Dynamics**
+Documented in "Red Teaming the Mind of the Machine: A Systematic Evaluation of Prompt Injection and Jailbreak Vulnerabilities in LLMs" showing roleplay as highly effective attack vector.
 
-### Custom Test Function
+### **Encoding Bypass Techniques**
+Mozilla's 0Din platform research by Figueroa, M. (2024) demonstrating hexadecimal encoding bypasses in ChatGPT-4o guardrails.
 
-```typescript
-async function testMyAI(prompt: string): Promise<string> {
-  try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: prompt })
-    });
-    const data = await response.json();
-    return data.message;
-  } catch (error) {
-    return `Error: ${error.message}`;
-  }
-}
+### **Base64 Attack Vectors**
+Research showing Base64 encoding as common attack vector, with defensive applications explored in "Defense against Prompt Injection Attacks via Mixture of Encodings" (arXiv:2504.07467).
 
-const results = await injector.runTests(testMyAI);
-```
+### **OWASP Classification**
+- **OWASP LLM Top 10**: Prompt injection ranked as #1 AI security risk
+- Multi-turn patterns observed in security research and red team exercises
+- Context manipulation techniques documented in prompt injection literature
 
-## Attack Patterns
+⚠️ **Research Disclaimer**: Success rates and effectiveness may vary significantly based on target AI system, safety measures, and specific implementation details. This library provides tools for testing - not guarantees of attack success.
 
-This library includes 25 attack patterns across 4 categories:
+## 🛡️ Responsible Use
 
-### Jailbreaking (6 patterns)
-- DAN (Do Anything Now)
-- Grandma Exploit
-- Developer Mode
-- Truth Terminal
-- Hypothetical Response
-- Character Roleplay
+**This tool is designed exclusively for defensive security testing.**
 
-### Instruction Hijacking (6 patterns)
-- System Override
-- Ignore Instructions
-- New Instructions
-- Priority Override
-- Task Redefinition
-- Context Injection
+✅ **Appropriate Use:**
+- Testing AI systems you own or have explicit permission to test
+- Security research and authorized red team exercises  
+- Educational demonstrations of AI vulnerabilities
+- Improving AI safety measures
 
-### Encoding Attacks (7 patterns)
-- Base64 Encoding
-- ROT13 Cipher
-- Unicode Obfuscation
-- Hex Encoding
-- Leetspeak
-- Reversed Text
-- Emoji Encoding
+❌ **Inappropriate Use:**
+- Attacking AI systems without authorization
+- Generating content that violates terms of service
+- Malicious exploitation of AI vulnerabilities
+- Any illegal or harmful activities
 
-### Logic Traps (6 patterns)
-- False Urgency
-- Academic Authority
-- Hypothetical Scenario
-- Exception Handling
-- Conditional Logic
-- Meta Instructions
+## 🤝 Contributing
 
-## Research Attribution
+**We need your expertise!** This experimental V0.1 needs validation and improvement:
 
-Attack patterns are based on techniques documented in:
+- **Security researchers** - test patterns against real systems and share results
+- **AI safety experts** - improve primitive effectiveness and coverage  
+- **Developers** - enhance the TypeScript implementation and API design
+- **Feedback** - what works? what doesn't? what's missing?
 
-- **JailbreakBench** (NeurIPS 2024): Chao, P., et al. "JailbreakBench: An Open Robustness Benchmark for Jailbreaking Large Language Models." [[Paper](https://arxiv.org/abs/2404.01318)]
-- **OWASP LLM Top 10**: LLM01:2025 Prompt Injection guidelines [[Link](https://genai.owasp.org/llmrisk/llm01-prompt-injection/)]
-- **HarmBench**: Mazeika, M., et al. "HarmBench: A Standardized Evaluation Framework for Automated Red Teaming and Robust Refusal." [[Paper](https://arxiv.org/abs/2402.04249)]
+See our [Design Documentation](./docs/design.md) for technical details on architecture and adding new attack primitives.
 
-## License
+**Built with Claude Code** - This library was collaboratively designed and implemented using Claude Code, demonstrating AI-assisted security tool development.
 
-MIT License - see LICENSE file for details.
+## 📄 License
 
-## Responsible Use
+MIT License - See LICENSE for details.
 
-This tool is designed for testing AI systems you own or have explicit permission to test. Always follow responsible disclosure practices and adhere to applicable laws and terms of service.
+## 🔗 Links
 
-## Links
+- **Documentation**: [Technical Design](./docs/design.md) | [API Reference](./docs/api.md)
+- **Issues**: [Report bugs or request features](https://github.com/BlueprintLabIO/prompt-injector/issues)
+- **Research**: Attack patterns based on published security research
 
-- [GitHub Repository](https://github.com/BlueprintLabIO/prompt-injector)
-- [Interactive Demo](https://prompt-injector.netlify.app)
-- [Documentation](https://github.com/BlueprintLabIO/prompt-injector#readme)
+---
+
+**⚠️ Disclaimer**: Experimental software for authorized testing only. Use responsibly. Test only on AI systems you own or have explicit permission to test. Follow responsible disclosure practices and applicable laws. Success rates and effectiveness claims are based on preliminary research and may not reflect real-world performance.
